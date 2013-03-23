@@ -69,7 +69,7 @@ void main() {
   HttpRequest.request("./test.json").then(
       (xhr) {
         var result = xhr.response;
-        
+
         //このハンドラはmain終了後に実行される
         var data = parse(result);
         text1=data['name'];
@@ -79,19 +79,19 @@ void main() {
 
         var aa= query("#text");
         aa.text = text1;//"Click me!"
-        
+
         aa.onClick.listen(rotateText);
         aa.onClick.listen(reverseText);
       },
       onError: (e) {
         // error!
       });
-  
-  
 
-  query("#click_calc").on.click.add(clickCalcMethod);
-  query("#click_calc_b").on.click.add(clickCalcMethod);
-  query("#click_file").on.click.add(clickFile);
+
+
+  query("#click_calc").onClick.listen(clickCalcMethod);
+  query("#click_calc_b").onClick.listen(clickCalcMethod);
+  query("#click_file").onClick.listen(clickFile);
 
   print("main_end");
 }
