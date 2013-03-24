@@ -3569,7 +3569,7 @@ $.reverseText = function($event) {
   for (i = text.length - 1; i >= 0; --i) {
     if (i >= text.length)
       throw $.ioore(i);
-    buffer.add$1(buffer, text[i]);
+    buffer.write$1(text[i]);
   }
   t1 = buffer.toString$0(buffer);
   $.set$text$x($.query$1$x(document, "#text"), t1);
@@ -3579,7 +3579,7 @@ $.reverseText$bailout = function(state0, text) {
   var buffer, t1, i, t2;
   buffer = $.StringBuffer$("");
   for (t1 = $.getInterceptor$asx(text), i = $.$sub$n(t1.get$length(text), 1); t2 = $.getInterceptor$n(i), t2.$ge(i, 0) === true; i = t2.$sub(i, 1))
-    buffer.add$1(buffer, t1.$index(text, i));
+    buffer.write$1(t1.$index(text, i));
   t1 = buffer.toString$0(buffer);
   $.set$text$x($.query$1$x(document, "#text"), t1);
 };

@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'dart:json';
+import 'dart:async';
 import 'dart:math';
 //import 'dart:io';
 
@@ -16,7 +17,7 @@ void reverseText(Event event) {
   var text = query("#text").text;
   var buffer = new StringBuffer();
   for (int i = text.length - 1; i >= 0; i--) {
-    buffer.add(text[i]);
+    buffer.write(text[i]);
   }
   query("#text").text = buffer.toString();
 }
@@ -58,6 +59,22 @@ void clickFile(Event event) {
   };*/
 }
 
+void processJson(String jsonString){
+  //このハンドラはmain終了後に実行される
+  var data = parse(jsonString);
+  text1=data['name'];
+
+  print("The contents of your data1 ---: ${jsonString}");
+  print("The contents of your data2 ---: ${text1}");
+
+  var aa= query("#text");
+  aa.text = text1;//"Click me!"
+
+  aa.onClick.listen(rotateText);
+  aa.onClick.listen(reverseText);
+}
+void handleError(AsyncError error){window.alert("Error get Json data: $error");}
+
 void main() {
   //query("#text")
   //  ..text = "Click me!"
@@ -66,29 +83,11 @@ void main() {
   var aa= query("#text");
   aa.text = text1;//"Click me!"
 
-  HttpRequest.request("./test.json").then(
-      (xhr) {
-        var result = xhr.response;
-
-        //このハンドラはmain終了後に実行される
-        var data = parse(result);
-        text1=data['name'];
-
-        print("The contents of your data ---: ${result}");
-        print("The contents of your data ---: ${text1}");
-
-        var aa= query("#text");
-        aa.text = text1;//"Click me!"
-
-        aa.onClick.listen(rotateText);
-        aa.onClick.listen(reverseText);
-      },
-      onError: (e) {
-        // error!
-      });
-
-
-
+  HttpRequest.getString("./test.json")
+  .then(processJson)
+  .catchError(handleError);
+  
+  
   query("#click_calc").onClick.listen(clickCalcMethod);
   query("#click_calc_b").onClick.listen(clickCalcMethod);
   query("#click_file").onClick.listen(clickFile);
